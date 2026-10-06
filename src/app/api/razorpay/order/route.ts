@@ -10,7 +10,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Valid amount is required' }, { status: 400 });
     }
 
-    const keyId = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
+    const keyId = process.env.RAZORPAY_KEY_ID || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID;
     const keySecret = process.env.RAZORPAY_KEY_SECRET;
 
     // Check if real keys are configured (real keys start with rzp_test_ or rzp_live_ and are ~14+ chars)

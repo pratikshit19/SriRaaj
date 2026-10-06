@@ -1,4 +1,4 @@
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'https://furbowl.onrender.com/api/v1';
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'https://sriraaj.in/api/v1';
 
 export async function apiRequest<T = unknown>(
   endpoint: string,

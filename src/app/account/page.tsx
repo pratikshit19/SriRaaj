@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useAuth } from '@/lib/AuthContext';
 import GoogleSignInButton from '@/components/GoogleSignInButton';
 import PhoneOtpLogin from '@/components/PhoneOtpLogin';
@@ -99,7 +100,7 @@ export default function AccountPage() {
   };
 
   // ── Unauthenticated: Sign In / Register View ──────────────────────────────
-  if (!isAuthenticated) {
+  if (!isAuthenticated || !user) {
     return (
       <div style={{ backgroundColor: 'var(--off-white)', minHeight: '80vh', padding: '120px 20px 100px' }}>
         <div style={{ maxWidth: 480, margin: '0 auto' }}>

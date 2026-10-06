@@ -1,7 +1,9 @@
+import React, { Suspense } from 'react';
 import type { Metadata } from 'next';
 import ProductCard from '@/components/ProductCard';
 import { products, categories } from '@/lib/data';
 import Link from 'next/link';
+
 
 export const metadata: Metadata = {
   title: 'Shop — Premium Indian Food Products',
@@ -12,7 +14,7 @@ interface ShopPageProps {
   searchParams: Promise<{ category?: string }>;
 }
 
-export default async function ShopPage({ searchParams }: ShopPageProps) {
+async function ShopContent({ searchParams }: ShopPageProps) {
   const params = await searchParams;
   const activeCategory = params.category || 'all';
   const filtered = activeCategory === 'all' ? products : products.filter((p) => p.category === activeCategory);
@@ -113,5 +115,19 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
 
 
     </>
+  );
+}
+
+export default function ShopPage(props: ShopPageProps) {
+  return (
+    <Suspense
+      fallback={
+        <div style={{ padding: '120px 0', textAlign: 'center', backgroundColor: 'var(--off-white)' }}>
+          <p style={{ fontFamily: 'var(--font-serif)', fontSize: 24, color: 'var(--text-muted)' }}>Loading products...</p>
+        </div>
+      }
+    >
+      <ShopContent {...props} />
+    </Suspense>
   );
 }

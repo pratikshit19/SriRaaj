@@ -278,9 +278,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const newAddr: UserAddress = {
       ...address,
       id: `addr_${Date.now()}`,
+      isDefault: Boolean(address.isDefault),
     };
-    const updatedAddresses = address.isDefault
-      ? user.addresses.map((a) => ({ ...a, isDefault: false })).concat(newAddr)
+    const updatedAddresses: UserAddress[] = address.isDefault
+      ? [...user.addresses.map((a) => ({ ...a, isDefault: false })), newAddr]
       : [...user.addresses, newAddr];
 
     saveUser({ ...user, addresses: updatedAddresses });

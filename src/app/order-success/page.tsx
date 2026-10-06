@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 
+
 export const metadata: Metadata = {
   title: 'Order Confirmed — SRIRAAJ',
   description: 'Thank you for your order with SRIRAAJ. Pure Indian goodness is on its way.',
@@ -16,15 +17,14 @@ interface OrderSuccessProps {
   }>;
 }
 
-export default async function OrderSuccessPage({ searchParams }: OrderSuccessProps) {
+async function OrderSuccessContent({ searchParams }: OrderSuccessProps) {
   const params = await searchParams;
   const orderId = params.orderId || `SR-${Math.floor(10000 + Math.random() * 90000)}`;
   const paymentId = params.paymentId || `pay_${Date.now().toString(36)}`;
   const amount = params.amount ? parseInt(params.amount) : null;
 
   return (
-    <Suspense fallback={<div style={{ padding: 120, textAlign: 'center' }}>Loading confirmation...</div>}>
-      <main style={{ backgroundColor: 'var(--off-white)', minHeight: '80vh', padding: '120px 20px 100px' }}>
+    <main style={{ backgroundColor: 'var(--off-white)', minHeight: '80vh', padding: '120px 20px 100px' }}>
         <div style={{ maxWidth: 640, margin: '0 auto', textAlign: 'center' }}>
           {/* Emblem & Checkmark */}
           <div
@@ -149,6 +149,19 @@ export default async function OrderSuccessPage({ searchParams }: OrderSuccessPro
           </div>
         </div>
       </main>
+  );
+}
+
+export default function OrderSuccessPage(props: OrderSuccessProps) {
+  return (
+    <Suspense
+      fallback={
+        <div style={{ padding: '120px 0', textAlign: 'center', backgroundColor: 'var(--off-white)' }}>
+          <p style={{ fontFamily: 'var(--font-serif)', fontSize: 24, color: 'var(--text-muted)' }}>Loading confirmation...</p>
+        </div>
+      }
+    >
+      <OrderSuccessContent {...props} />
     </Suspense>
   );
 }

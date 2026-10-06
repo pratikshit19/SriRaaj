@@ -1,8 +1,10 @@
+import React, { Suspense } from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import ProductCard from '@/components/ProductCard';
 import { products, recipes } from '@/lib/data';
 import Image from 'next/image';
+
 
 export const metadata: Metadata = {
   title: 'Search Results — SRIRAAJ',
@@ -13,7 +15,7 @@ interface SearchPageProps {
   searchParams: Promise<{ q?: string }>;
 }
 
-export default async function SearchPage({ searchParams }: SearchPageProps) {
+async function SearchContent({ searchParams }: SearchPageProps) {
   const params = await searchParams;
   const q = (params.q || '').trim();
   const queryLower = q.toLowerCase();
@@ -132,5 +134,19 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
         </div>
       </section>
     </>
+  );
+}
+
+export default function SearchPage(props: SearchPageProps) {
+  return (
+    <Suspense
+      fallback={
+        <div style={{ padding: '120px 0', textAlign: 'center', backgroundColor: 'var(--off-white)' }}>
+          <p style={{ fontFamily: 'var(--font-serif)', fontSize: 24, color: 'var(--text-muted)' }}>Searching SRIRAAJ...</p>
+        </div>
+      }
+    >
+      <SearchContent {...props} />
+    </Suspense>
   );
 }

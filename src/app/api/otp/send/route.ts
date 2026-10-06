@@ -12,8 +12,8 @@ export async function POST(request: Request) {
     const cleaned = phone.replace(/[^0-9]/g, '');
     const mobile = cleaned.length === 10 ? `91${cleaned}` : cleaned;
 
-    const authKey = process.env.NEXT_PUBLIC_MSG91_TOKEN_AUTH;
-    const widgetId = process.env.NEXT_PUBLIC_MSG91_WIDGET_ID;
+    const authKey = process.env.MSG91_AUTH_KEY || process.env.NEXT_PUBLIC_MSG91_TOKEN_AUTH;
+    const widgetId = process.env.MSG91_TEMPLATE_ID || process.env.NEXT_PUBLIC_MSG91_WIDGET_ID;
 
     // Call MSG91 Send OTP API if live credentials available
     if (authKey && widgetId) {

@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { products, recipes, type Product, type Recipe } from '@/lib/data';
+import { products, recipes, type Product, type RecipePost as Recipe } from '@/lib/data';
 import { useCart } from '@/lib/CartContext';
 
 interface SearchModalProps {
@@ -395,7 +395,8 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                     <button
                       type="button"
                       onClick={() => {
-                        addItem(p, p.sizes?.[0]?.value || 'standard', p.price, 1);
+                        const defaultSize = p.sizes?.[0] || { label: 'Standard', value: 'standard', price: p.price };
+                        addItem(p, defaultSize, 1);
                         onClose();
                       }}
                       className="btn btn-primary"
